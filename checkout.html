@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Foodie</title>
+    <link rel="stylesheet" href="checkout.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://checkout.flutterwave.com/v3.js"></script> <!-- ✅ Add Flutterwave SDK -->
+</head>
+<body>
+
+    <!-- ✅ Header and Navigation -->
+    <header class="header">
+        <div class="logo">
+          <img src="src/foodies-typography-logo-template-food-260nw-2180717175.png" alt="Foodie Logo" class="logo-img"> 
+          <span>Foodie</span>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="landingpage.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html" class="cart-link">🛒 Cart
+                <span id="cart-badge" class="cart-badge">0</span>
+            </a></li>
+          </ul>
+        </nav>
+    </header>
+
+    <!-- ✅ Checkout Section -->
+    <main class="checkout-container">
+        <h2>Checkout</h2>
+        
+        <section class="checkout-summary">
+            <h3>Order Summary</h3>
+            <div id="checkout-items"></div>
+        </section>
+
+        <aside class="checkout-total">
+            <h3>Payment Details</h3>
+            <p>Subtotal: <strong>₦<span id="subtotal-price">0</span></strong></p>
+            <p>Delivery Fee: <strong>₦<span id="delivery-fee">2000</span></strong></p>
+            <p><strong>Total: ₦<span id="total-price">0</span></strong></p>
+            <button id="payment-btn">Proceed to Payment</button>
+        </aside>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkoutContainer = document.getElementById("checkout-items");
+            const subtotalPriceElement = document.getElementById("subtotal-price");
+            const totalPriceElement = document.getElementById("total-price");
+            const cartBadge = document.getElementById("cart-badge");
+            const paymentButton = document.getElementById("payment-btn");
+
+            const DELIVERY_FEE = 2000; // Fixed delivery fee
+            let totalAmount = 0;
+
+            function loadCheckout() {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                let subtotal = 0;
+                let totalItems = 0;
+
+                checkoutContainer.innerHTML = "";
+
+                if (cart.length === 0) {
+                    checkoutContainer.innerHTML = "<p>Your cart is empty.</p>";
+                    return;
+                }
+
+                cart.forEach((item, index) => {
+                    subtotal += item.price * item.quantity;
+                    totalItems += item.quantity;
+
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("checkout-item");
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="checkout-img">
+                        <div class="checkout-details">
+                            <h4>${item.name}</h4>
+                            <p>₦${item.price.toLocaleString()} x 
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">➖</button>
+                                <span class="item-qty">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">➕</button>
+                            </p>
+                            <strong>Subtotal: ₦${(item.price * item.quantity).toLocaleString()}</strong>
+                            <button class="remove-btn" onclick="removeItem(${index})">🗑️ Remove</button>
+                        </div>
+                    `;
+
+                    checkoutContainer.appendChild(itemElement);
+                });
+
+                totalAmount = subtotal + DELIVERY_FEE;
+                subtotalPriceElement.textContent = subtotal.toLocaleString();
+                totalPriceElement.textContent = totalAmount.toLocaleString();
+
+                // Update cart badge count
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? "flex" : "none";
+            }
+
+            // Function to update quantity
+            window.updateQuantity = function(index, change) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                if (cart[index]) {
+                    cart[index].quantity += change;
+
+                    // Prevent quantity from going below 1
+                    if (cart[index].quantity < 1) {
+                        cart.splice(index, 1); // Remove item if quantity is 0
+                    }
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    loadCheckout(); // Refresh checkout page
+                }
+            };
+
+            // Function to remove an item from the cart
+            window.removeItem = function(index) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                cart.splice(index, 1); // Remove item from array
+                localStorage.setItem("cart", JSON.stringify(cart));
+                
+                loadCheckout(); // Refresh checkout page
+            };
+
+            // ✅ Flutterwave Payment Integration
+            paymentButton.addEventListener("click", function () {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                if (cart.length === 0) {
+                    alert("Your cart is empty.");
+                    return;
+                }
+
+                const orderRef = "TX-" + Date.now(); // Generate order reference
+                const email = "customer@example.com"; // Replace with actual user email
+                const phone = "08012345678"; // Replace with actual user phone
+                const customerName = "John Doe"; // Replace with actual user name
+
+                FlutterwaveCheckout({
+                    public_key: "FLWPUBK-6a68ee6754d1d1b9b5813cb9f74c20c7-X", // ✅ Replace with your Flutterwave Public Key
+                    tx_ref: orderRef,
+                    amount: totalAmount,
+                    currency: "NGN",
+                    payment_options: "card, ussd, banktransfer",
+                    customer: {
+                        email: email,
+                        phone_number: phone,
+                        name: customerName,
+                    },
+                    callback: function(response) {
+                        if (response.status === "successful") {
+                            sessionStorage.setItem("paymentStatus", "success");
+                            sessionStorage.setItem("transactionID", response.transaction_id);
+                            sessionStorage.setItem("orderRef", orderRef);
+                            sessionStorage.setItem("totalAmount", totalAmount);
+
+                            window.location.href = "order-success.html";
+                        } else {
+                            alert("Payment failed. Please try again.");
+                        }
+                    },
+                    customizations: {
+                        title: "Foodie Order Payment",
+                        description: "Payment for your Foodie order",
+                        logo: "src/foodies-typography-logo-template-food-260nw-2180717175.png",
+                    },
+                });
+            });
+
+            loadCheckout();
+        });
+
+    </script>
+
+</body>
+</html>

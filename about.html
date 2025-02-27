@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>About Us - Foodie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="about.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="logo">
+      <img src="src/foodies-typography-logo-template-food-260nw-2180717175.png" alt="Foodie Logo" class="logo-img"> 
+      <span>Foodie</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="landingpage.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" class="cart-link">🛒 Cart
+            <span id="cart-badge" class="cart-badge">0</span>
+        </a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Foodie</h1>
+      <p>Order your favorite meals from local restaurants and have them delivered to your doorstep.</p>
+      <a href="menu.html" class="btn-order">Explore Our Menu</a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="about-content" data-aos="fade-up" data-aos-duration="1200">
+      <h1>About Us</h1>
+      <p data-aos="fade-right" data-aos-duration="1500" data-aos-delay="200">
+        At Foodie, we're passionate about connecting food lovers with delicious, local meals delivered right to your door. Whether you're craving pizza, sushi, or a healthy salad, we make ordering food easy, quick, and convenient.
+      </p>
+      <div class="about-info">
+        <div class="about-item" data-aos="fade-up" data-aos-duration="1500">
+          <i class="fas fa-utensils"></i>
+          <h3>Our Mission</h3>
+          <p>To provide you with the best dining experience, bringing local restaurants to your fingertips with convenience and taste in mind.</p>
+        </div>
+        <div class="about-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300">
+          <i class="fas fa-users"></i>
+          <h3>Our Team</h3>
+          <p>Our team of food enthusiasts works relentlessly to ensure that your orders are delivered hot, fresh, and on time.</p>
+        </div>
+        <div class="about-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="600">
+          <i class="fas fa-clock"></i>
+          <h3>Fast Delivery</h3>
+          <p>We take pride in our fast delivery service, ensuring you get your food exactly when you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Foodie - All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize AOS (Animate On Scroll)
+    AOS.init();
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const cartBadge = document.getElementById("cart-badge");
+
+      function updateCartBadge(totalItems = null) {
+          if (totalItems === null) {
+              let cart = JSON.parse(localStorage.getItem("cart")) || [];
+              totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+          }
+
+          cartBadge.textContent = totalItems;
+          cartBadge.style.opacity = totalItems > 0 ? "1" : "0";
+
+          localStorage.setItem("cartBadge", totalItems);
+      }
+
+      function loadCartBadge() {
+          const savedCount = localStorage.getItem("cartBadge");
+          if (savedCount !== null) {
+              updateCartBadge(parseInt(savedCount));
+          }
+      }
+
+      loadCartBadge();
+
+      window.addEventListener("storage", function () {
+          loadCartBadge();
+      });
+    });
+  </script>
+</body>
+</html>

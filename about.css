@@ -1,0 +1,152 @@
+/* Global Reset and Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header and Navigation */
+.header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.header .logo {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.header nav ul li {
+    position: relative;
+}
+
+.header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.header nav ul li a:hover {
+    color: #f0a500;
+}
+
+/* Cart Badge */
+.cart-link {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.logo-img {
+    width: 60px; /* Adjust the size as needed */
+    height: 65px;
+    margin-right: 10px; /* Creates space between image and text */
+}
+
+/* Hero Section */
+.hero {
+    background-color: #333;
+    color: white;
+    padding: 80px 20px; /* Increased padding for better spacing */
+    text-align: center;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 50px; /* Increased space before button */
+}
+
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+
+.btn-order {
+    font-size: 1.2rem;
+    background-color: #f0a500;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    color: white;
+}
+
+.btn-order:hover {
+    background-color: #d98e00;
+}
+
+/* About Section */
+.about {
+    padding: 50px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.about-info {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.about-item {
+    width: 30%;
+    text-align: center;
+    padding: 30px;
+    background: #f7f7f7;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-item:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
