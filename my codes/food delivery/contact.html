@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact Us - Foodie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="contact.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="logo">
+      <img src="src/foodies-typography-logo-template-food-260nw-2180717175.png" alt="Foodie Logo" class="logo-img"> 
+      <span>Foodie</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="landingpage.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" class="cart-link">🛒 Cart
+            <span id="cart-badge" class="cart-badge">0</span>
+        </a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hi">
+        <h1>Contact Us</h1>
+        <p>Have questions or need support? We're here to help. Reach out to us and we'll get back to you as soon as possible!</p>
+      </div>
+      <a href="menu.html" class="btn-order order-now">Explore Our Menu</a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-page">
+    <div class="contact-content" data-aos="fade-up" data-aos-duration="1200">
+      <h1>Contact Us</h1>
+      <p data-aos="fade-right" data-aos-duration="1500" data-aos-delay="200">
+        Have questions or need support? We're here to help! Reach out to us and we'll get back to you as soon as possible.
+      </p>
+
+      <div class="contact-info">
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Our Location</h3>
+          <p>21 Wali street, Nkpolu .</p>
+        </div>
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300">
+          <i class="fas fa-phone-alt"></i>
+          <h3>Call Us</h3>
+          <p>+234 707 580 0632</p>
+        </div>
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="600">
+          <i class="fas fa-envelope"></i>
+          <h3>Email Us</h3>
+          <p>support@foodie.com</p>
+        </div>
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="900">
+            <i class="fab fa-whatsapp"></i>
+            <h3>WhatsApp Support</h3>
+            <p><a href="https://wa.me/2347075800632" target="_blank">Chat with Us</a></p>
+        </div>
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1200">
+            <i class="fas fa-comments"></i>
+            <h3>Live Chat</h3>
+            <p>Available on our website 24/7</p>
+        </div>
+        <div class="contact-item" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1500">
+            <i class="fas fa-clock"></i>
+            <h3>Business Hours</h3>
+            <p>Mon-Sat: 9AM - 10PM</p>
+        </div>
+      </div>
+
+      <h2 data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="800">Get in Touch</h2>
+
+      <form class="contact-form" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1000">
+        <div class="form-group">
+          <input type="text" id="name" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+
+      <button class="explore-btn" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1200"><a href="menu.html">Explore Our Menu</a></button>
+    
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Foodie - All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize AOS (Animate On Scroll)
+    AOS.init();
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const cartBadge = document.getElementById("cart-badge");
+
+        function updateCartBadge(totalItems = null) {
+            if (totalItems === null) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            }
+
+            cartBadge.textContent = totalItems;
+            cartBadge.style.visibility = totalItems > 0 ? "visible" : "hidden"; // Fix visibility issue
+
+            localStorage.setItem("cartBadge", totalItems);
+        }
+
+        function loadCartBadge() {
+            const savedCount = localStorage.getItem("cartBadge");
+            if (savedCount !== null) {
+                updateCartBadge(parseInt(savedCount));
+            }
+        }
+
+        loadCartBadge();
+
+        // Ensure badge updates across multiple tabs/windows
+        window.addEventListener("storage", function () {
+            loadCartBadge();
+        });
+    });
+  </script>
+</body>
+</html>
