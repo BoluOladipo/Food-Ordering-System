@@ -7,18 +7,27 @@
     <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <form id="signupForm">
-            <input type="text" id="fullName" placeholder="Full Name" required />
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="password" id="password" placeholder="Password" required />
-            <input type="text" id="phone" placeholder="Phone" required />
-            <input type="text" id="address" placeholder="Address" required />
-            <button type="submit">Sign Up</button>
-        </form>
-        <button onclick="location.href='login.html'">Sign In</button>
+ <div class="wrapper" id="wrapper">
+    <div class="form-container sign-up">
+      <form id="signupForm">
+        <h2>Create Account</h2>
+        <input type="text" id="fullName" placeholder="Full Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <input type="text" id="phone" placeholder="Phone" required />
+        <input type="text" id="address" placeholder="Address" required />
+        <button type="submit">Sign Up</button>
+      </form>
     </div>
+    
+    <div class="form-container sign-in">
+      <h2>Welcome To chow-haven!</h2>
+      <p>To Feel the taste, Sign up with your personal info</p>
+      <button ><a href="login.html">Log In</a></button>
+    </div>
+
+    <div class="arc" id="arc"></div>
+  </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
@@ -69,11 +78,21 @@
                 // Redirect to verification page
                 window.location.href = "verify.html";
     
-            } catch (error) {
+            }catch (error) {
     console.error("Signup Error:", error); // Log full error for debugging
     alert("❌ Error: " + error.message);
 }
+
         });
+        function toggleForm() {
+  const wrapper = document.getElementById("wrapper");
+  wrapper.classList.toggle("show-arc");
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 900); // adjust based on arc animation time
+}
+
     </script>
     
 </body>
