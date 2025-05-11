@@ -1,61 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-    <div class="container" id="loginBox">
+  <div class="wrapper" id="wrapper">
+    <div class="form-container sign-up">
+      <form id="signupForm">
         <h2>Login</h2>
         <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="password" id="password" placeholder="Password" required />
-            <button type="submit">Login</button>
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+      </form>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-    
-        const firebaseConfig = {
-            apiKey: "AIzaSyBFdiIS8Ginns3G1WoowLLgWK_BH_tsalc",
-            authDomain: "food-ordering-system-998d7.firebaseapp.com",
-            projectId: "food-ordering-system-998d7",
-            storageBucket: "food-ordering-system-998d7.appspot.com",
-            messagingSenderId: "878858483867",
-            appId: "1:878858483867:web:465d4f24b3acc6858e6e3e",
-            measurementId: "G-P3LFVP1Z7E"
-        };
-    
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-    
-        document.getElementById("loginForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-    
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-    
-                if (!user.emailVerified) {
-                    alert("❌ Email not verified! Please check your email.");
-                    return;
-                }
-    
-                alert("✅ Login successful!");
-                window.location.href = "fooddeliverysystem.html";
-    
-            } catch (error) {
-                alert("❌ Error: " + error.message);
-            }
-        });
-    </script>
-    
+    <div class="form-container sign-in">
+      <h2>Welcome Back <chow-haven></chow-haven>!</h2>
+      <p>To keep connected, login with your personal info</p>
+      <button><a href="signup.html" style="color: white; text-decoration: none;">Sign Up</a></button>
+    </div>
+
+    <div class="arc" id="arc"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBFdiIS8Ginns3G1WoowLLgWK_BH_tsalc",
+      authDomain: "food-ordering-system-998d7.firebaseapp.com",
+      projectId: "food-ordering-system-998d7",
+      storageBucket: "food-ordering-system-998d7.appspot.com",
+      messagingSenderId: "878858483867",
+      appId: "1:878858483867:web:465d4f24b3acc6858e6e3e",
+      measurementId: "G-P3LFVP1Z7E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        if (!user.emailVerified) {
+          alert("❌ Please verify your email , then return to login.");
+          return;
+        }
+
+        alert("✅ Login successful!");
+        window.location.href = "fooddeliverysystem.html";
+
+      } catch (error) {
+        alert("❌ Error: " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
